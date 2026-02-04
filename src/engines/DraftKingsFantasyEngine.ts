@@ -115,7 +115,7 @@ export class DraftKingsFantasyEngine {
 
     // AI Enhancement
     if (this.model && player.last5Games.length >= 5) {
-      const features = this.extractPlayerFeatures(player, sport);
+      const features = this.extractPlayerFeatures(player, _sport);
       const input = tf.tensor2d([features]);
       const prediction = this.model.predict(input) as tf.Tensor;
       const [aiProj, aiCeiling, aiFloor] = await prediction.data();
