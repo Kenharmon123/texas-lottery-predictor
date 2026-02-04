@@ -12,8 +12,8 @@ interface LotteryPrediction {
 }
 export class MegaPowerballEngine {
   private historicalData: Map<string, any[]> = new Map();
-  private megaMillionsData: any[] = [];
-  private powerballData: any[] = [];
+  private megaMill_ionsData: any[] = [];
+  private powerbal_lData: any[] = [];
 
   constructor() {
     this.initializeDataSources();
