@@ -104,7 +104,7 @@ const generatePlayerStats = (sport: string, position: string): GameStats[] => {
   return games;
 };
 
-const calculatePropPredictions = (stats: GameStats[], sport: string): PropPrediction[] => {
+const calculatePropPredictions = (stats: GameStats[], _sport: string): PropPrediction[] => {
   const props: PropPrediction[] = [];
   
   // Get all stat categories
