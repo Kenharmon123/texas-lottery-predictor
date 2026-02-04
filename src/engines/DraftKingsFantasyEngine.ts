@@ -137,8 +137,8 @@ export class DraftKingsFantasyEngine {
     }
 
     const value = (projectedPoints / player.salary) * 1000;
-    const ownership = this.estimateOwnership(player, value, sport);
-    const factors = this.identifyKeyFactors(player, projectedPoints, sport);
+    const ownership = this.estimateOwnership(player, value, _sport);
+    const factors = this.identifyKeyFactors(player, projectedPoints, _sport);
 
     return {
       player,
