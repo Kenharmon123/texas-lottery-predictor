@@ -104,7 +104,7 @@ export class DraftKingsFantasyEngine {
   }
 
   public async projectPlayer(player: PlayerStats, _sport: DFSSport): Promise<PlayerProjection> {
-    const baseProjection = this.calculateBaseProjection(player, sport);
+    const baseProjection = this.calculateBaseProjection(player, _sport);
     const matchupAdjustment = this.applyMatchupAdjustment(player, baseProjection);
     const trendAdjustment = this.applyTrendAdjustment(player, matchupAdjustment);
     
