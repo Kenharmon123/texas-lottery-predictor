@@ -1,13 +1,11 @@
-import { LotteryEngine } from './LotteryEngine';
 import { LotteryPrediction } from '../types';
 
-export class MegaPowerballEngine extends LotteryEngine {
+export class MegaPowerballEngine {
   private historicalData: Map<string, any[]> = new Map();
   private megaMillionsData: any[] = [];
   private powerballData: any[] = [];
 
   constructor() {
-    super();
     this.initializeDataSources();
   }
 
