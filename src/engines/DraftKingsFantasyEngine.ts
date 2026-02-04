@@ -103,7 +103,7 @@ export class DraftKingsFantasyEngine {
     });
   }
 
-  public async projectPlayer(player: PlayerStats, sport: DFSSport): Promise<PlayerProjection> {
+  public async projectPlayer(player: PlayerStats, _sport: DFSSport): Promise<PlayerProjection> {
     const baseProjection = this.calculateBaseProjection(player, sport);
     const matchupAdjustment = this.applyMatchupAdjustment(player, baseProjection);
     const trendAdjustment = this.applyTrendAdjustment(player, matchupAdjustment);
@@ -187,7 +187,7 @@ export class DraftKingsFantasyEngine {
     return lineups;
   }
 
-  private calculateBaseProjection(player: PlayerStats, sport: DFSSport): number {
+  private calculateBaseProjection(player: PlayerStats, _sport: DFSSport): number {
     if (player.last5Games.length === 0) return player.seasonAvg;
     
     const recentAvg = mean(player.last5Games);
@@ -214,7 +214,7 @@ export class DraftKingsFantasyEngine {
     }
   }
 
-  private extractPlayerFeatures(player: PlayerStats, sport: DFSSport): number[] {
+  private extractPlayerFeatures(player: PlayerStats, _sport: DFSSport): number[] {
     return [
       player.salary / 10000,
       player.seasonAvg,
@@ -234,7 +234,7 @@ export class DraftKingsFantasyEngine {
     ];
   }
 
-  private estimateOwnership(player: PlayerStats, value: number, sport: DFSSport): number {
+  private estimateOwnership(player: PlayerStats, value: number, _sport: DFSSport): number {
     let baseOwnership = 5; // Start at 5%
     
     // High salary = higher ownership
@@ -254,7 +254,7 @@ export class DraftKingsFantasyEngine {
     return Math.min(baseOwnership, 50); // Cap at 50%
   }
 
-  private identifyKeyFactors(player: PlayerStats, projection: number, sport: DFSSport): string[] {
+  private identifyKeyFactors(player: PlayerStats, projection: number, _sport: DFSSport): string[] {
     const factors: string[] = [];
 
     if (player.recentTrend === 'UP') {
