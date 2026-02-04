@@ -1,4 +1,4 @@
-route.tsimport { NextRequest, NextResponse } from 'next/server';
+mport { NextRequest, NextResponse } from 'next/server';
 
 // Game Totals & Over/Under Prediction Engine
 export interface GameTotalsPrediction {
