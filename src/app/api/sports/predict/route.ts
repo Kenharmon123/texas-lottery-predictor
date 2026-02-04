@@ -1,4 +1,4 @@
-predict/route.tsimport { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { SportsAnalyticsEngine } from '@/engines/SportsAnalyticsEngine';
 
 export async function GET(request: NextRequest) {
