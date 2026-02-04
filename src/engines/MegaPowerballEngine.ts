@@ -1,5 +1,15 @@
-import { LotteryPrediction } from '../types';
-
+// Interface for lottery prediction results
+interface LotteryPrediction {
+  numbers: number[];
+  confidence: number;
+  hotNumbers: number[];
+  coldNumbers: number[];
+  frequency: Record<number, number>;
+  patterns: string[];
+  recommendations: string[];
+  powerball?: number;
+  analysis?: string;
+}
 export class MegaPowerballEngine {
   private historicalData: Map<string, any[]> = new Map();
   private megaMillionsData: any[] = [];
