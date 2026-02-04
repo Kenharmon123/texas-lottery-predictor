@@ -249,7 +249,7 @@ export class DraftKingsFantasyEngine {
     if (player.opponentRank <= 5) baseOwnership += 10;
     
     // Stars = higher ownership
-    if (player.seasonAvg > 20 && sport !== 'NFL') baseOwnership += 15;
+    if (player.seasonAvg > 20 && _sport !== 'NFL') baseOwnership += 15;
     
     return Math.min(baseOwnership, 50); // Cap at 50%
   }
