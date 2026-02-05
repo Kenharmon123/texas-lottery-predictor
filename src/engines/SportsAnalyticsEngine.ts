@@ -1,4 +1,4 @@
-
+import * as tf from '@tensorflow/tfjs';
 export type SportType = 'NFL' | 'NBA' | 'MLB' | 'NHL' | 'SOCCER' | 'MMA';
 
 export interface TeamStats {
