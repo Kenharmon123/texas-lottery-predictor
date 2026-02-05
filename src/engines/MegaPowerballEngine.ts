@@ -93,8 +93,8 @@ export class MegaPowerballEngine {
 
     return {
       numbers: predictions.main,
-      hotNumbers: [...analysis.numberFrequency.entries()].sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 10).map(([num]) => num),
-      coldNumbers: [...analysis.numberFrequency.entries()].sort((a, b) => (a[1] as number) - (b[1] as number)).slice(0, 10).map(([num]) => num),
+      hotNumbers: [...analysis.numberFrequency.entries()].sort((a: any, b: any) => (b[1] as number) - (a[1] as number)).slice(0, 10).map(([num]) => num),
+      coldNumbers: [...analysis.numberFrequency.entries()].sort((a: any, b: any) => (a[1] as number) - (b[1] as number)).slice(0, 10).map(([num]) => num),
             frequency: Object.fromEntries(analysis.numberFrequency),
             patterns: [],
       powerball: predictions.bonus,
@@ -236,12 +236,12 @@ export class MegaPowerballEngine {
 
   private formatAnalysis(analysis: any, gameType: string): string {
     const topNumbers = [...analysis.numberFrequency.entries()]
-      .sort((a, b) => (b[1] as number) - (a[1] as number))
+      .sort((a: any, b: any) => (b[1] as number) - (a[1] as number))
       .slice(0, 10)
       .map(([num]) => num);
     
     const topBonus = [...analysis.bonusFrequency.entries()]
-      .sort((a, b) => (b[1] as number) - (a[1] as number))
+      .sort((a: any, b: any) => (b[1] as number) - (a[1] as number))
       .slice(0, 5)
       .map(([num]) => num);
 
