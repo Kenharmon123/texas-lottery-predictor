@@ -31,11 +31,6 @@ export class MegaPowerballEngine {
     // Simulated API call - replace with actual lottery data API
     const mockData = this.generateMockHistoricalData(gameType);
     
-    if (gameType === 'MEGA_MILLIONS') {
-      this.megaMillionsData = mockData;
-    } else if (gameType === 'POWERBALL') {
-      this.powerballData = mockData;
-    }
     
     this.historicalData.set(gameType, mockData);
   }
@@ -290,7 +285,5 @@ export class MegaPowerballEngine {
 
   public dispose(): void {
     this.historicalData.clear();
-    this.megaMillionsData = [];
-    this.powerballData = [];
   }
 }
