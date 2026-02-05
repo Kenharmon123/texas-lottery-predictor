@@ -93,6 +93,10 @@ export class MegaPowerballEngine {
 
     return {
       numbers: predictions.main,
+            hotNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([num]) => num),
+      coldNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => a[1] - b[1]).slice(0, 10).map(([num]) => num),
+      frequency: Object.fromEntries(analysis.numberFrequency),
+      patterns: [],
       powerball: predictions.bonus,
       confidence,
       analysis: this.formatAnalysis(analysis, gameType),
