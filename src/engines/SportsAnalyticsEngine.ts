@@ -129,7 +129,7 @@ export class SportsAnalyticsEngine {
       awayTeam,
       overUnder,
       finalScore,
-      spreadPrediction: spread,
+      spreadPrediction: spread as any,
       keyFactors,
       riskLevel,
       recommendations
