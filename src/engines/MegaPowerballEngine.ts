@@ -10,6 +10,7 @@ interface LotteryPrediction {
   powerball?: number;
   analysis?: string;
 }
+
 export class MegaPowerballEngine {
   private historicalData: Map<string, any[]> = new Map();
 
@@ -30,7 +31,6 @@ export class MegaPowerballEngine {
   private async loadHistoricalData(gameType: string): Promise<void> {
     // Simulated API call - replace with actual lottery data API
     const mockData = this.generateMockHistoricalData(gameType);
-    
     
     this.historicalData.set(gameType, mockData);
   }
@@ -62,7 +62,7 @@ export class MegaPowerballEngine {
       if (!main.includes(num)) main.push(num);
     }
     return {
-      main: main.sort((a: number, b: number) => a - b),
+      main: main.sort((a, b) => a - b),
       bonus: Math.floor(Math.random() * 25) + 1
     };
   }
@@ -74,7 +74,7 @@ export class MegaPowerballEngine {
       if (!main.includes(num)) main.push(num);
     }
     return {
-      main: main.sort((a: number, b: number) => a - b),
+      main: main.sort((a, b) => a - b),
       bonus: Math.floor(Math.random() * 26) + 1
     };
   }
@@ -93,8 +93,8 @@ export class MegaPowerballEngine {
 
     return {
       numbers: predictions.main,
-            hotNumbers: Array.from(analysis.numberFrequency.entries()) => b[1] - a[1]).slice(0, 10).map(([num]) => num),
-      coldNumbers: Array.from(analysis.numberFrequency.entries()) => a[1] - b[1]).slice(0, 10).map(([num]) => num),
+      hotNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([num]) => num),
+      coldNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => a[1] - b[1]).slice(0, 10).map(([num]) => num),
       frequency: Object.fromEntries(analysis.numberFrequency),
       patterns: [],
       powerball: predictions.bonus,
@@ -186,7 +186,7 @@ export class MegaPowerballEngine {
       }
     }
     
-    mainNumbers => a - b);
+    mainNumbers.sort((a, b) => a - b);
 
     // Select bonus number
     const bonusWeights = new Map<number, number>();
@@ -236,20 +236,20 @@ export class MegaPowerballEngine {
 
   private formatAnalysis(analysis: any, gameType: string): string {
     const topNumbers = Array.from(analysis.numberFrequency.entries())
-       => b[1] - a[1])
+      .sort((a, b) => b[1] - a[1])
       .slice(0, 10)
       .map(([num]) => num);
     
     const topBonus = Array.from(analysis.bonusFrequency.entries())
-       => b[1] - a[1])
+      .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
       .map(([num]) => num);
 
     return `Analysis based on ${analysis.totalDraws} ${gameType} draws. ` +
-           `Most frequent numbers: ${topNumbers.join(', ')}. ` +
-           `Most frequent ${gameType === 'MEGA_MILLIONS' ? 'Mega Ball' : 'Powerball'}: ${topBonus.join(', ')}. ` +
-           `Average sum: ${Math.round(analysis.avgSum)}. ` +
-           `Average spread: ${Math.round(analysis.avgSpread)}.`;
+      `Most frequent numbers: ${topNumbers.join(', ')}. ` +
+      `Most frequent ${gameType === 'MEGA_MILLIONS' ? 'Mega Ball' : 'Powerball'}: ${topBonus.join(', ')}. ` +
+      `Average sum: ${Math.round(analysis.avgSum)}. ` +
+      `Average spread: ${Math.round(analysis.avgSpread)}.`;
   }
 
   private generateRecommendations(analysis: any, gameType: string): string[] {
@@ -263,6 +263,7 @@ export class MegaPowerballEngine {
     if (hot.length >= 3) {
       recommendations.push('Consider including some frequently drawn numbers for balanced coverage');
     }
+
     if (cold.length > 15) {
       recommendations.push('Several numbers are due - consider mixing in some less frequent picks');
     }
