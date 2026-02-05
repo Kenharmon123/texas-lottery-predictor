@@ -62,7 +62,7 @@ export class MegaPowerballEngine {
       if (!main.includes(num)) main.push(num);
     }
     return {
-      main: main.sort((a, b) => a - b),
+      main: main.sort((a: [number, number], b: [number, number]) => a - b),
       bonus: Math.floor(Math.random() * 25) + 1
     };
   }
@@ -74,7 +74,7 @@ export class MegaPowerballEngine {
       if (!main.includes(num)) main.push(num);
     }
     return {
-      main: main.sort((a, b) => a - b),
+      main: main.sort((a: [number, number], b: [number, number]) => a - b),
       bonus: Math.floor(Math.random() * 26) + 1
     };
   }
@@ -93,8 +93,8 @@ export class MegaPowerballEngine {
 
     return {
       numbers: predictions.main,
-            hotNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([num]) => num),
-      coldNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => a[1] - b[1]).slice(0, 10).map(([num]) => num),
+            hotNumbers: Array.from(analysis.numberFrequency.entries()).sort((a: [number, number], b: [number, number]) => b[1] - a[1]).slice(0, 10).map(([num]) => num),
+      coldNumbers: Array.from(analysis.numberFrequency.entries()).sort((a: [number, number], b: [number, number]) => a[1] - b[1]).slice(0, 10).map(([num]) => num),
       frequency: Object.fromEntries(analysis.numberFrequency),
       patterns: [],
       powerball: predictions.bonus,
@@ -186,7 +186,7 @@ export class MegaPowerballEngine {
       }
     }
     
-    mainNumbers.sort((a, b) => a - b);
+    mainNumbers.sort((a: [number, number], b: [number, number]) => a - b);
 
     // Select bonus number
     const bonusWeights = new Map<number, number>();
@@ -236,12 +236,12 @@ export class MegaPowerballEngine {
 
   private formatAnalysis(analysis: any, gameType: string): string {
     const topNumbers = Array.from(analysis.numberFrequency.entries())
-      .sort((a, b) => b[1] - a[1])
+      .sort((a: [number, number], b: [number, number]) => b[1] - a[1])
       .slice(0, 10)
       .map(([num]) => num);
     
     const topBonus = Array.from(analysis.bonusFrequency.entries())
-      .sort((a, b) => b[1] - a[1])
+      .sort((a: [number, number], b: [number, number]) => b[1] - a[1])
       .slice(0, 5)
       .map(([num]) => num);
 
