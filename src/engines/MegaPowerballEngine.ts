@@ -56,7 +56,7 @@ export class MegaPowerballEngine {
   }
 
   private generateMegaMillionsNumbers(): { main: number[], bonus: number } {
-    const main = [];
+    const main: number[] = [];
     while (main.length < 5) {
       const num = Math.floor(Math.random() * 70) + 1;
       if (!main.includes(num)) main.push(num);
@@ -68,7 +68,7 @@ export class MegaPowerballEngine {
   }
 
   private generatePowerballNumbers(): { main: number[], bonus: number } {
-    const main = [];
+    const main: number[] = [];
     while (main.length < 5) {
       const num = Math.floor(Math.random() * 69) + 1;
       if (!main.includes(num)) main.push(num);
