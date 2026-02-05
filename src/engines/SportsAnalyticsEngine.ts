@@ -1,5 +1,3 @@
-import * as tf from '@tensorflow/tfjs';
-import { mean, standardDeviation } from 'simple-statistics';
 
 export type SportType = 'NFL' | 'NBA' | 'MLB' | 'NHL' | 'SOCCER' | 'MMA';
 
