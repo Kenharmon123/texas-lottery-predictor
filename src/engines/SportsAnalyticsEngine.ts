@@ -136,7 +136,7 @@ export class SportsAnalyticsEngine {
     };
   }
 
-  private async predictFinalScore(sport: SportType, _homeStats: TeamStats, _awayStats: TeamStats): Promise<FinalScorePrediction> {
+  private async predictFinalScore(sport: SportType, homeStats: TeamStats, awayStats: TeamStats): Promise<FinalScorePrediction> {
     let homeScore: number;
     let awayScore: number;
     let confidence = 0.70;
@@ -250,7 +250,7 @@ export class SportsAnalyticsEngine {
     ];
   }
 
-  private applySportAdjustments(sport: SportType, homeScore: number, awayScore: number, _homeStats: TeamStats, _awayStats: TeamStats): [number, number] {
+  private applySportAdjustments(sport: SportType, homeScore: number, awayScore: number, homeStats: TeamStats, awayStats: TeamStats): [number, number] {
     switch (sport) {
       case 'NFL':
         // NFL typically 17-35 points
@@ -305,7 +305,7 @@ export class SportsAnalyticsEngine {
     return `Projected total ${projected.toFixed(1)} vs line ${line} suggests ${confidence} ${direction} by ${Math.abs(diff).toFixed(1)} points`;
   }
 
-  private analyzeKeyFactors(sport: SportType, _homeStats: TeamStats, _awayStats: TeamStats): string[] {
+  private analyzeKeyFactors(sport: SportType, homeStats: TeamStats, awayStats: TeamStats): string[] {
     const factors: string[] = [];
 
     if (homeStats.injuries.length > 2) {
