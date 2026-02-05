@@ -62,7 +62,7 @@ export class MegaPowerballEngine {
       if (!main.includes(num)) main.push(num);
     }
     return {
-      main: main.sort((a: [number, number], b: [number, number]) => a - b),
+      main: main.sort((a: number, b: number) => a - b),
       bonus: Math.floor(Math.random() * 25) + 1
     };
   }
@@ -74,7 +74,7 @@ export class MegaPowerballEngine {
       if (!main.includes(num)) main.push(num);
     }
     return {
-      main: main.sort((a: [number, number], b: [number, number]) => a - b),
+      main: main.sort((a: number, b: number) => a - b),
       bonus: Math.floor(Math.random() * 26) + 1
     };
   }
