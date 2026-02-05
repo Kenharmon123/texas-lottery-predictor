@@ -1,4 +1,5 @@
 'use client';
+// Texas Lottery Predictor - Production Ready
 
 import Link from 'next/link';
 
