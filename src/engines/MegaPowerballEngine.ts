@@ -93,8 +93,8 @@ export class MegaPowerballEngine {
 
     return {
       numbers: predictions.main,
-      hotNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 10).map(([num]) => num),
-      coldNumbers: Array.from(analysis.numberFrequency.entries()).sort((a, b) => (a[1] as number) - (b[1] as number)).slice(0, 10).map(([num]) => num),
+      hotNumbers: [...analysis.numberFrequency.entries()].sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 10).map(([num]) => num),
+      coldNumbers: [...analysis.numberFrequency.entries()].sort((a, b) => (a[1] as number) - (b[1] as number)).slice(0, 10).map(([num]) => num),
             frequency: Object.fromEntries(analysis.numberFrequency),
             patterns: [],
       powerball: predictions.bonus,
@@ -235,7 +235,7 @@ export class MegaPowerballEngine {
   }
 
   private formatAnalysis(analysis: any, gameType: string): string {
-    const topNumbers = Array.from(analysis.numberFrequency.entries())
+    const topNumbers = [...analysis.numberFrequency.entries()]
       .sort((a, b) => (b[1] as number) - (a[1] as number))
       .slice(0, 10)
       .map(([num]) => num);
@@ -256,7 +256,7 @@ export class MegaPowerballEngine {
     const recommendations: string[] = [];
 
     // Hot vs cold analysis
-    const numbers = Array.from(analysis.numberFrequency.entries());
+    const numbers = [...analysis.numberFrequency.entries()];
     const hot = numbers.filter(([, count]) => count > analysis.totalDraws * 0.015);
     const cold = numbers.filter(([, count]) => count < analysis.totalDraws * 0.008);
 
