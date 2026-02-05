@@ -79,7 +79,7 @@ export class MegaPowerballEngine {
     };
   }
 
-  public async predict(type: string, options?: any): Promise<LotteryPrediction> {
+  public async predict(type: string, _options?: any): Promise<LotteryPrediction> {
     const gameType = type.toUpperCase();
     const data = this.historicalData.get(gameType) || [];
     
