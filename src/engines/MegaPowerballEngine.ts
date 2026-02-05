@@ -240,7 +240,7 @@ export class MegaPowerballEngine {
       .slice(0, 10)
       .map(([num]) => num);
     
-    const topBonus = Array.from(analysis.bonusFrequency.entries())
+    const topBonus = [...analysis.bonusFrequency.entries()]
       .sort((a, b) => (b[1] as number) - (a[1] as number))
       .slice(0, 5)
       .map(([num]) => num);
