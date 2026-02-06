@@ -305,7 +305,7 @@ export class SportsAnalyticsEngine {
     return `Projected total ${projected.toFixed(1)} vs line ${line} suggests ${confidence} ${direction} by ${Math.abs(diff).toFixed(1)} points`;
   }
 
-  private analyzeKeyFactors(_sport: SportType, homeStats: TeamStats, awayStats: TeamStats): string[] {
+  private analyzeKeyFactors(_sport: SportTypee, homeStats: TeamStats, awayStats: TeamStats): string[] {
     const factors: string[] = [];
 
     if (homeStats.injuries.length > 2) {
