@@ -161,7 +161,7 @@ export class SportsAnalyticsEngine {
     }
 
     // Apply sport-specific adjustments
-    [homeScore, awayScore] = this.applySportAdjustments(sport, homeScore, awayScore, homeStats, awayStats);
+        [homeScore, awayScore] = this.applySportAdjustments(sport, homeScore, awayScore);
 
     const winner = homeScore > awayScore ? 'HOME' : awayScore > homeScore ? 'AWAY' : 'PUSH';
     const margin = Math.abs(homeScore - awayScore);
@@ -250,7 +250,7 @@ export class SportsAnalyticsEngine {
     ];
   }
 
-  private applySportAdjustments(sport: SportType, homeScore: number, awayScore: number): [number, number] {
+  private this.applySportAdjustments(sport, homeScore, awayScore)sport: SportType, homeScore: number, awayScore: number): [number, number] {
     switch (sport) {
       case 'NFL':
         // NFL typically 17-35 points
