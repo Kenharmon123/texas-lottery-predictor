@@ -136,7 +136,7 @@ export class SportsAnalyticsEngine {
     };
   }
 
-  private async predictFinalScore(sport: SportType): Promise<FinalScorePrediction> {
+  private async predictFinalScore(sport: SportType, homeStats: TeamStats, awayStats: TeamStats): Promise<FinalScorePrediction> {
     let homeScore: number;
     let awayScore: number;
     let confidence = 0.70;
