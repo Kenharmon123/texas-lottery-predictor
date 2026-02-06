@@ -250,7 +250,7 @@ export class SportsAnalyticsEngine {
     ];
   }
 
-  private this.applySportAdjustments(sport, homeScore, awayScore)sport: SportType, homeScore: number, awayScore: number): [number, number] {
+  private applySportAdjustments(sport: SportType, homeScore: number, awayScore: number): [number, number] {
     switch (sport) {
       case 'NFL':
         // NFL typically 17-35 points
@@ -305,7 +305,7 @@ export class SportsAnalyticsEngine {
     return `Projected total ${projected.toFixed(1)} vs line ${line} suggests ${confidence} ${direction} by ${Math.abs(diff).toFixed(1)} points`;
   }
 
-  private analyzeKeyFactors(sport: SportType): string[] {
+  private analyzeKeyFactors(sport: SportTyp, homeStats: TeamStats, awayStats: TeamStatse): string[] {
     const factors: string[] = [];
 
     if (homeStats.injuries.length > 2) {
