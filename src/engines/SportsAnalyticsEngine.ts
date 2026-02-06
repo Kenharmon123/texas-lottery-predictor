@@ -299,7 +299,7 @@ export class SportsAnalyticsEngine {
     return defaults[sport];
   }
 
-  private generateOverUnderAnalysis(s_port: SportType, projected: number, line: number, diff: number): string {
+  private generateOverUnderAnalysis(_sport: SportType, projected: number, line: number, diff: number): string {
     const direction = diff > 0 ? 'OVER' : 'UNDER';
     const confidence = diff > 0 ? 'strong' : 'moderate';
     return `Projected total ${projected.toFixed(1)} vs line ${line} suggests ${confidence} ${direction} by ${Math.abs(diff).toFixed(1)} points`;
