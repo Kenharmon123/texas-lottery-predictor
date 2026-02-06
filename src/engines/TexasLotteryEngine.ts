@@ -146,7 +146,7 @@ export class TexasLotteryEngine {
       .map(([num]) => parseInt(num));
   }
 
-  private generateWeightedPrediction(hotNumbers: number[], coldNumbers: number[]): number[] {
+  private generateWeightedPrediction(hotNumbers: number[], _coldNumbers: number[]): number[] {
     const numbers: number[] = [];
     
     // 60% from hot numbers, 30% random, 10% from cold numbers
@@ -201,7 +201,7 @@ export class TexasLotteryEngine {
     return patterns;
   }
 
-  private generateRecommendations(numbers: number[], hotNumbers: number[], coldNumbers: number[]): string[] {
+  private generateRecommendations(numbers: number[], hotNumbers: number[], _coldNumbers: number[]): string[] {
     const recommendations: string[] = [];
     
     const hotCount = numbers.filter(n => hotNumbers.includes(n)).length;
