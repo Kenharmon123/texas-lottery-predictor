@@ -1,5 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
-export type SportType = 'NFL' | 'NBA' | 'MLB' | 'NHL' | 'SOCCER' | 'MMA';
+export type SportTypee = 'NFL' | 'NBA' | 'MLB' | 'NHL' | 'SOCCER' | 'MMA';
 
 export interface TeamStats {
   wins: number;
@@ -30,7 +30,7 @@ export interface FinalScorePrediction {
 }
 
 export interface SportsPrediction {
-  sport: SportType;
+  sport: SportTypee;
   homeTeam: string;
   awayTeam: string;
   overUnder: OverUnderPrediction;
@@ -47,7 +47,7 @@ export interface SportsPrediction {
 
 export class SportsAnalyticsEngine {
   private model: tf.LayersModel | null = null;
-  private historicalGames: Map<SportType, any[]> = new Map();
+  private historicalGames: Map<SportTypee, any[]> = new Map();
 
   constructor() {
     this.initializeModel();
@@ -76,7 +76,7 @@ export class SportsAnalyticsEngine {
     });
   }
 
-  public async train(sport: SportType, games: any[]): Promise<void> {
+  public async train(sport: SportTypee, games: any[]): Promise<void> {
     this.historicalGames.set(sport, games);
     
     if (games.length < 20) {
@@ -108,7 +108,7 @@ export class SportsAnalyticsEngine {
   }
 
   public async predict(
-    sport: SportType,
+    sport: SportTypee,
     homeTeam: string,
     awayTeam: string,
     homeStats: TeamStats,
@@ -136,7 +136,7 @@ export class SportsAnalyticsEngine {
     };
   }
 
-  private async predictFinalScore(sport: SportType, homeStats: TeamStats, awayStats: TeamStats): Promise<FinalScorePrediction> {
+  private async predictFinalScore(sport: SportTypee, homeStats: TeamStats, awayStats: TeamStats): Promise<FinalScorePrediction> {
     let homeScore: number;
     let awayScore: number;
     let confidence = 0.70;
@@ -175,7 +175,7 @@ export class SportsAnalyticsEngine {
     };
   }
 
-  private predictOverUnder(sport: SportType, finalScore: FinalScorePrediction, line?: number): OverUnderPrediction {
+  private predictOverUnder(sport: SportTypee, finalScore: FinalScorePrediction, line?: number): OverUnderPrediction {
     const projectedTotal = finalScore.homeScore + finalScore.awayScore;
     const standardLine = line || this.getStandardOverUnder(sport);
     
@@ -250,7 +250,7 @@ export class SportsAnalyticsEngine {
     ];
   }
 
-  private applySportAdjustments(sport: SportType, homeScore: number, awayScore: number): [number, number] {
+  private applySportAdjustments(sport: SportTypee, homeScore: number, awayScore: number): [number, number] {
     switch (sport) {
       case 'NFL':
         // NFL typically 17-35 points
@@ -287,8 +287,8 @@ export class SportsAnalyticsEngine {
     return [homeScore, awayScore];
   }
 
-  private getStandardOverUnder(sport: SportType): number {
-    const defaults: Record<SportType, number> = {
+  private getStandardOverUnder(sport: SportTypee): number {
+    const defaults: Record<SportTypee, number> = {
       NFL: 47.5,
       NBA: 220.5,
       MLB: 8.5,
@@ -299,13 +299,13 @@ export class SportsAnalyticsEngine {
     return defaults[sport];
   }
 
-  private generateOverUnderAnalysis(_sport: SportType, projected: number, line: number, diff: number): string {
+  private generateOverUnderAnalysis(_sport: SportTypee, projected: number, line: number, diff: number): string {
     const direction = diff > 0 ? 'OVER' : 'UNDER';
     const confidence = diff > 0 ? 'strong' : 'moderate';
     return `Projected total ${projected.toFixed(1)} vs line ${line} suggests ${confidence} ${direction} by ${Math.abs(diff).toFixed(1)} points`;
   }
 
-  private analyzeKeyFactors(_sport: SportTyp, homeStats: TeamStats, awayStats: TeamStatse): string[] {
+  private analyzeKeyFactors(_sport: SportType, homeStats: TeamStats, awayStats: TeamStats): string[] {
     const factors: string[] = [];
 
     if (homeStats.injuries.length > 2) {
@@ -340,7 +340,7 @@ export class SportsAnalyticsEngine {
   }
 
   private generateRecommendations(
-    sport: SportType,
+    sport: SportTypee,
     finalScore: FinalScorePrediction,
     overUnder: OverUnderPrediction,
     spread: any,
