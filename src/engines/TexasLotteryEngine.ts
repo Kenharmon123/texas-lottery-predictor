@@ -1,5 +1,4 @@
 import * as tf from '@tensorflow/tfjs';
-import { mean, standardDeviation, median } from 'simple-statistics';
 
 export interface LotteryPrediction {
   numbers: number[];
