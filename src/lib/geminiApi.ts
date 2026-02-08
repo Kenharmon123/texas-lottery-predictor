@@ -94,8 +94,8 @@ function buildPrompt(request: PredictionRequest): string {
   }
 }
 
-function parseAIResponse(text: string, type: string): PredictionResponse {
-  try {
+function parseAIResponse(text: string, _type: string): PredictionResponse {
+    try {
     // Try to extract JSON from the response
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
