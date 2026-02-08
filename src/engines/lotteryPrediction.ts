@@ -40,7 +40,7 @@ export class LotteryPredictionEngine {
   }
 
   // Model 1: Frequency Analysis (1M iterations)
-  private frequencyAnalysis(count: number, maxNum: number): number[] {
+  private frequencyAnalysis(count: number): number[] {
     const frequency: Map<number, number> = new Map();
     
     // Time-weighted frequency calculation
