@@ -240,7 +240,7 @@ export class LotteryPredictionEngine {
   // Ensemble prediction combining all 6 models
   public predict(gameType: 'powerball' | 'megamillions' | 'texas', numbers: number, maxNum: number): LotteryPrediction {
     const models: ModelPrediction[] = [
-      { name: 'Frequency Analysis', numbers: this.frequencyAnalysis(numbers, maxNum), weight: 0.20, confidence: 0.85 },
+      { name: 'Frequency Analysis', numbers: this.frequencyAnalysis(numbers), weight: 0.20, confidence: 0.85 },
       { name: 'Pattern Recognition', numbers: this.patternRecognition(numbers, maxNum), weight: 0.18, confidence: 0.78 },
       { name: 'Hot/Cold Analysis', numbers: this.hotColdAnalysis(numbers, maxNum), weight: 0.17, confidence: 0.82 },
       { name: 'Gap Analysis', numbers: this.gapAnalysis(numbers, maxNum), weight: 0.15, confidence: 0.75 },
