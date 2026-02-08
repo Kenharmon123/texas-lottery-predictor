@@ -238,7 +238,8 @@ export class LotteryPredictionEngine {
   }
 
   // Ensemble prediction combining all 6 models
-  public predict(_gameType: 'powerball' | 'megamillions' | 'texas', numbers: number, maxNum: number): LotteryPrediction {
+  241
+  (_ameType: 'powerball' | 'megamillions' | 'texas', numbers: number, maxNum: number): LotteryPrediction {
     const models: ModelPrediction[] = [
       { name: 'Frequency Analysis', numbers: this.frequencyAnalysis(numbers), weight: 0.20, confidence: 0.85 },
       { name: 'Pattern Recognition', numbers: this.patternRecognition(numbers, maxNum), weight: 0.18, confidence: 0.78 },
@@ -247,6 +248,15 @@ export class LotteryPredictionEngine {
       { name: 'Monte Carlo', numbers: this.monteCarlo(numbers, maxNum), weight: 0.15, confidence: 0.70 },
       { name: 'Markov Chain', numbers: this.markovChain(numbers, maxNum), weight: 0.15, confidence: 0.73 }
     ];
+
+        // Adjust model weights based on game type
+    if (gameType === 'powerball') {
+      // Powerball-specific adjustments
+      models[0].weight = 0.22; // Boost frequency for Powerball
+    } else if (gameType === 'megamillions') {
+      // Mega Millions-specific adjustments
+      models[1].weight = 0.20; // Boost pattern for Mega Millions
+    }
 
     // Weighted ensemble
     const ensembleScores: Map<number, number> = new Map();
