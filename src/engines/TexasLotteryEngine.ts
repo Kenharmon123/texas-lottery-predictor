@@ -211,7 +211,7 @@ export class TexasLotteryEngine {
       recommendations.push('Consider adding more hot numbers to your selection');
     }
 
-    const coldCount = numbers.filter(n => coldNumbers.includes(n)).length;
+    const coldCount = numbers.filter(n => _coldNumbers.includes(n)).length;
     if (coldCount > 2) {
       recommendations.push('High-risk strategy detected with cold numbers');
     }
