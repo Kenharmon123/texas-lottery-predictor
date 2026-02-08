@@ -238,7 +238,6 @@ export class LotteryPredictionEngine {
   }
 
   // Ensemble prediction combining all 6 models
-  241
   public predict(gameType: 'powerball' | 'megamillions' | 'texas', numbers: number, maxNum: number): LotteryPrediction {
     const models: ModelPrediction[] = [
       { name: 'Frequency Analysis', numbers: this.frequencyAnalysis(numbers), weight: 0.20, confidence: 0.85 },
