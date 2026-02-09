@@ -8,6 +8,9 @@ export default function TexasLotteryPage() {
   const [prediction, setPrediction] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+    const [showWheeling, setShowWheeling] = useState(false);
+  const [wheelNumbers, setWheelNumbers] = useState<number[]>([]);
+  const [patternWarning, setPatternWarning] = useState('');
 
   const games = [
     { id: 'daily4', name: 'Daily 4', desc: 'Pick 4 numbers from 0-9' },
@@ -15,6 +18,53 @@ export default function TexasLotteryPage() {
     { id: 'lottotexas', name: 'Lotto Texas', desc: 'Pick 6 numbers from 1-54' },
     { id: 'texastwo', name: 'Texas Two Step', desc: 'Pick 4 numbers + Bonus Ball' },
   ];
+
+    // Pattern Detection: Warn about common patterns that lead to split jackpots
+  const detectPattern = (numbers: number[]) => {
+    const sorted = [...numbers].sort((a, b) => a - b);
+    
+    // Check for sequential numbers
+    const isSequential = sorted.every((num, idx) => idx === 0 || num === sorted[idx - 1] + 1);
+    if (isSequential) return "⚠️ Sequential numbers (1-2-3-4...) are commonly played - you may split jackpot if you win!";
+    
+    // Check if all birthdays (1-31)
+    const allBirthdays = numbers.every(n => n >= 1 && n <= 31);
+    if (allBirthdays && selectedGame !== 'daily4') return "⚠️ All numbers 1-31 (birthdays) are very commonly played - risk splitting jackpot!";
+    
+    // Check for multiples of 5
+    const allMultiples5 = numbers.every(n => n % 5 === 0);
+    if (allMultiples5) return "⚠️ All multiples of 5 are commonly played - may split jackpot!";
+    
+    // Check same last digit
+    const lastDigits = numbers.map(n => n % 10);
+    const allSameDigit = lastDigits.every(d => d === lastDigits[0]);
+    if (allSameDigit) return "⚠️ All numbers with same last digit - uncommon pattern, may split jackpot!";
+    
+    return '';
+  };
+
+  // Abbreviated Wheeling System
+  const generateWheelCombinations = (nums: number[], gameType: string) => {
+    if (nums.length < 5) return [];
+    
+    const combinations: number[][] = [];
+    const pickSize = gameType === 'daily4' ? 4 : gameType === 'cash5' ? 5 : gameType === 'lottotexas' ? 6 : 5;
+    
+    // Generate abbreviated wheel (covering key combinations)
+    function generateCombs(arr: number[], size: number, start: number = 0, result: number[] = []) {
+      if (result.length === size) {
+        combinations.push([...result]);
+        return;
+      }
+      for (let i = start; i < arr.length; i++) {
+        generateCombs(arr, size, i + 1, [...result, arr[i]]);
+        if (combinations.length >= 20) return; // Limit to 20 combinations
+      }
+    }
+    
+    generateCombs(nums, pickSize);
+    return combinations;
+  };
 
     // Monte Carlo Simulation: Run 500K-1M iterations to analyze frequency patterns
   const runMonteCarloSimulation = (game: string, iterations: number = 750000) => {
@@ -86,6 +136,8 @@ export default function TexasLotteryPage() {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       const numbers = generateMockNumbers(selectedGame);
+            const warning = detectPattern(numbers);
+      if (warning) setPatternWarning(warning);
       
       // Run Monte Carlo simulation
 // Only run Monte Carlo for Daily 4 (has historical data)
@@ -111,6 +163,7 @@ export default function TexasLotteryPage() {
         }
       analysis: simulation 
         ? `Monte Carlo simulation with ${simulation.iterations.toLocaleString()} iterations completed in ${simulation.simulationTime}s. Mathematical probability: ${probData.probability}%`
+              patternWarning: warning,
         : `Random number generation. Mathematical probability: ${probData.probability}%. Note: Limited historical data available for this game.`,        hotNumbers: simulation.hotNumbers,
               hotNumbers: simulation ? simulation.hotNumbers : generateMockNumbers(selectedGame).slice(0, 3),
       coldNumbers: simulation ? simulation.coldNumbers : generateMockNumbers(selectedGame).slice(3, 6),
