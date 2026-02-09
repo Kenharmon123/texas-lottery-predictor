@@ -167,8 +167,18 @@ export default function SportsPage() {
       {
         id: 1,
         name: '3-Leg Parlay - Today\'s Best',
-        picks: picks.slice(0, 3).map(p => `${p.matchup} ${p.pick}`),
-        totalOdds: '+595',
+      // Select picks from different matchups to avoid same-game parlays
+      const uniqueMatchups = new Set<string>();
+      const selectedPicks: Pick[] = [];
+      
+      for (const pick of picks) {
+        if (!uniqueMatchups.has(pick.matchup) && selectedPicks.length < 3) {
+          uniqueMatchups.add(pick.matchup);
+          selectedPicks.push(pick);
+        }
+      }
+      
+      picks: selectedPicks.map(p => `${p.matchup} ${p.pick}`),        totalOdds: '+595',
         potentialPayout: '$695 on $100',
         confidence: 78,
         risk: 'MEDIUM'
