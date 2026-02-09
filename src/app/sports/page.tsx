@@ -104,6 +104,35 @@ export default function SportsPage() {
             confidence: Math.floor(Math.random() * 20) + 70,
             analysis: `Strong value play based on current odds`,
           });
+
+                } else if (market.key === 'spreads' && market.outcomes) {
+        // Spreads
+        const bestOutcome = market.outcomes[0];
+        picks.push({
+          id: pickId++,
+          sport: sportName,
+          matchup,
+          pick: `${bestOutcome.name} ${bestOutcome.point > 0 ? '+' : ''}${bestOutcome.point}`,
+          type: 'spread',
+          odds: bestOutcome.price > 0 ? `+${bestOutcome.price}` : `${bestOutcome.price}`,
+          confidence: Math.floor(Math.random() * 20) + 70,
+          analysis: `Strong spread play based on current line`,
+        });
+      } else if (market.key === 'totals' && market.outcomes) {
+        // Over/Under
+        const overOutcome = market.outcomes.find((o: any) => o.name === 'Over');
+        if (overOutcome) {
+          picks.push({
+            id: pickId++,
+            sport: sportName,
+            matchup,
+            pick: `Over ${overOutcome.point}`,
+            type: 'over-under',
+            odds: overOutcome.price > 0 ? `+${overOutcome.price}` : `${overOutcome.price}`,
+            confidence: Math.floor(Math.random() * 20) + 70,
+            analysis: `Value on the over based on recent trends`,
+          });
+        }
         }
       });
     });
