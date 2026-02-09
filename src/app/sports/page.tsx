@@ -49,9 +49,6 @@ export default function SportsPage() {
     filterByType();
   }, [selectedType]);
 
-  const fetchRealOddsData = async () => {
-    setLoading(true);
-    setError(null);
     
     try {
       const sportParam = selectedSport !== 'ALL' ? `?sport=${selectedSport}` : '';
@@ -157,10 +154,6 @@ export default function SportsPage() {
     return sportMap[sportKey] || sportKey.toUpperCase();
   };
 
-  const filterByType = () => {
-    // This would filter the existing picks by type
-    // For now, we'll keep all picks since we're fetching fresh data
-  };
 
   const generateParlays = (picks: Pick[]) => {
     if (picks.length < 3) {
@@ -281,8 +274,7 @@ export default function SportsPage() {
                     <div
                       key={pick.id}
                       className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all"
-                    >
-                      <div className="flex items-start justify-between">
+                    {todaysPicks.filter(pick => selectedType === 'all' || pick.type === selectedType).map>    <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <span className="text-2xl font-bold text-blue-400">#{index + 1}</span>
