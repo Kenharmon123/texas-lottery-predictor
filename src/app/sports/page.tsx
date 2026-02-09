@@ -1,4 +1,5 @@
-'use client';
+270
+  'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -270,11 +271,7 @@ export default function SportsPage() {
                 <p className="text-blue-200">No picks available for the selected sport.</p>
               ) : (
                 <div className="space-y-4">
-                  {todaysPicks.map((pick, index) => (
-                    <div
-                      key={pick.id}
-                      className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all"
-                    {todaysPicks.filter(pick => selectedType === 'all' || pick.type === selectedType).map((pick, index) => (    <div className="flex items-start justify-between">
+                    {todaysPicks.filter(pick) => selectedType === 'all' || pick.type === selectedType).map((pick, index) => (    <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <span className="text-2xl font-bold text-blue-400">#{index + 1}</span>
