@@ -88,7 +88,10 @@ export default function TexasLotteryPage() {
       const numbers = generateMockNumbers(selectedGame);
       
       // Run Monte Carlo simulation
-      const simulation = runMonteCarloSimulation(selectedGame, 750000);
+// Only run Monte Carlo for Daily 4 (has historical data)
+      const simulation = selectedGame === 'daily4' 
+        ? runMonteCarloSimulation(selectedGame, 750000)
+        : null;
       
       // Calculate actual probability
       const probData = calculateActualProbability(selectedGame);
@@ -99,16 +102,18 @@ export default function TexasLotteryPage() {
         confidenceScore: probData.confidenceScore.toFixed(4), // Scaled score
         odds: probData.odds,
         totalCombinations: probData.totalCombinations,
+        ...(simulation && {
         simulation: {
           iterations: simulation.iterations.toLocaleString(),
           timeSeconds: simulation.simulationTime,
           mostFrequent: `${simulation.mostFrequent[0]} (appeared ${simulation.mostFrequent[1]} times)`,
           leastFrequent: `${simulation.leastFrequent[0]} (appeared ${simulation.leastFrequent[1]} times)`
-        },
-        analysis: `Monte Carlo simulation with ${simulation.iterations.toLocaleString()} iterations completed in ${simulation.simulationTime}s. Mathematical probability: ${probData.probability}%`,
-        hotNumbers: simulation.hotNumbers,
-        coldNumbers: simulation.coldNumbers,
-      };
+        }
+      analysis: simulation 
+        ? `Monte Carlo simulation with ${simulation.iterations.toLocaleString()} iterations completed in ${simulation.simulationTime}s. Mathematical probability: ${probData.probability}%`
+        : `Random number generation. Mathematical probability: ${probData.probability}%. Note: Limited historical data available for this game.`,        hotNumbers: simulation.hotNumbers,
+              hotNumbers: simulation ? simulation.hotNumbers : generateMockNumbers(selectedGame).slice(0, 3),
+      coldNumbers: simulation ? simulation.coldNumbers : generateMockNumbers(selectedGame).slice(3, 6),
       
       setPrediction(mockPrediction);
     } catch (err) {
