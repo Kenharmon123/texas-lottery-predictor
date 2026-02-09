@@ -12,6 +12,7 @@ interface Pick {
   odds: string;
   confidence: number;
   analysis: string;
+    spread?: string;
 }
 
 interface Parlay {
@@ -80,6 +81,7 @@ export default function SportsPage() {
   const transformOddsToPicks = (oddsData: any[]): Pick[] => {
     const picks: Pick[] = [];
     let pickId = 1;
+        const matchupSpreads = new Map<string, string>();
 
     oddsData.forEach((game: any) => {
       if (!game.bookmakers || game.bookmakers.length === 0) return;
@@ -103,11 +105,14 @@ export default function SportsPage() {
             odds: bestOutcome.price > 0 ? `+${bestOutcome.price}` : `${bestOutcome.price}`,
             confidence: Math.floor(Math.random() * 20) + 70,
             analysis: `Strong value play based on current odds`,
+                    spread: matchupSpreads.get(matchup),
           });
 
                 } else if (market.key === 'spreads' && market.outcomes) {
         // Spreads
         const bestOutcome = market.outcomes[0];
+                  // Store spread for this matchup
+        matchupSpreads.set(matchup, `${bestOutcome.name} ${bestOutcome.point > 0 ? '+' : ''}${bestOutcome.point}`);
         picks.push({
           id: pickId++,
           sport: sportName,
@@ -287,6 +292,9 @@ export default function SportsPage() {
                           </div>
                           <h3 className="text-xl font-bold text-white mb-2">{pick.matchup}</h3>
                           <p className="text-2xl font-bold text-yellow-300 mb-2">{pick.pick}</p>
+                                                {pick.type === 'moneyline' && pick.spread && (
+                        <p className="text-sm text-gray-400 mt-1">Spread: {pick.spread}</p>
+                      )}
                           <p className="text-blue-200 mb-2">{pick.analysis}</p>
                           <p className="text-sm text-gray-400">Odds: {pick.odds}</p>
                         </div>
