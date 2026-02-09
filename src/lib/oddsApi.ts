@@ -25,8 +25,7 @@ export interface OddsData {
 export async function getSportsOdds(sport: string = 'baseball_mlb'): Promise<OddsData[]> {
   try {
     const response = await fetch(
-      `${ODDS_API_BASE_URL}/sports/${sport}/odds/?apiKey=${ODDS_API_KEY}&regions=us&markets=h2h`,
-      {
+      `${ODDS_API_BASE_URL}/sports/${sport}/odds/?apiKey=${ODDS_API_KEY}&regions=us&markets=h2h,spreads,totals`,      {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
