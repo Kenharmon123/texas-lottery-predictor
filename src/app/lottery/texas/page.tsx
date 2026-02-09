@@ -16,6 +16,68 @@ export default function TexasLotteryPage() {
     { id: 'texastwo', name: 'Texas Two Step', desc: 'Pick 4 numbers + Bonus Ball' },
   ];
 
+    // Monte Carlo Simulation: Run 500K-1M iterations to analyze frequency patterns
+  const runMonteCarloSimulation = (game: string, iterations: number = 750000) => {
+    const frequencyMap: Map<number, number> = new Map();
+    const startTime = Date.now();
+    
+    // Run simulations
+    for (let i = 0; i < iterations; i++) {
+      const numbers = generateMockNumbers(game);
+      numbers.forEach(num => {
+        frequencyMap.set(num, (frequencyMap.get(num) || 0) + 1);
+      });
+    }
+    
+    const simulationTime = ((Date.now() - startTime) / 1000).toFixed(2);
+    
+    // Sort by frequency to find hot/cold numbers
+    const sorted = Array.from(frequencyMap.entries())
+      .sort((a, b) => b[1] - a[1]);
+    
+    return {
+      iterations,
+      simulationTime,
+      frequencyMap,
+      hotNumbers: sorted.slice(0, 5).map(([num]) => num),
+      coldNumbers: sorted.slice(-5).map(([num]) => num),
+      mostFrequent: sorted[0],
+      leastFrequent: sorted[sorted.length - 1]
+    };
+  };
+
+  // Calculate actual mathematical probability
+  const calculateActualProbability = (game: string) => {
+    let totalCombinations = 1;
+    
+    switch(game) {
+      case 'daily4':
+        totalCombinations = Math.pow(10, 4); // 10^4
+        break;
+      case 'cash5':
+        // C(37,5) = 37!/(5! * 32!)
+        totalCombinations = 435897;
+        break;
+      case 'lottotexas':
+        // C(54,6) = 54!/(6! * 48!)
+        totalCombinations = 25827165;
+        break;
+      case 'texastwo':
+        // C(35,4) * 35
+        totalCombinations = 1623160;
+        break;
+    }
+    
+    const probability = (1 / totalCombinations) * 100;
+    
+    return {
+      totalCombinations,
+      probability: probability.toFixed(8),
+      odds: `1 in ${totalCombinations.toLocaleString()}`,
+      confidenceScore: Math.min(probability * 10000, 100) // Scale for display (still very low)
+    };
+  };
+
   const getPrediction = async () => {
     setLoading(true);
     setError('');
@@ -23,12 +85,29 @@ export default function TexasLotteryPage() {
       // Simulated prediction - in production, this would call your API
       await new Promise(resolve => setTimeout(resolve, 1500));
       
+      const numbers = generateMockNumbers(selectedGame);
+      
+      // Run Monte Carlo simulation
+      const simulation = runMonteCarloSimulation(selectedGame, 750000);
+      
+      // Calculate actual probability
+      const probData = calculateActualProbability(selectedGame);
+      
       const mockPrediction = {
-        numbers: generateMockNumbers(selectedGame),
-        confidence: (Math.random() * 0.2 + 0.65).toFixed(2),
-        analysis: `Based on ${Math.floor(Math.random() * 500 + 100)} historical draws`,
-        hotNumbers: generateMockNumbers(selectedGame).slice(0, 3),
-        coldNumbers: generateMockNumbers(selectedGame).slice(3, 6),
+        numbers,
+        confidence: probData.probability, // Actual mathematical probability
+        confidenceScore: probData.confidenceScore.toFixed(4), // Scaled score
+        odds: probData.odds,
+        totalCombinations: probData.totalCombinations,
+        simulation: {
+          iterations: simulation.iterations.toLocaleString(),
+          timeSeconds: simulation.simulationTime,
+          mostFrequent: `${simulation.mostFrequent[0]} (appeared ${simulation.mostFrequent[1]} times)`,
+          leastFrequent: `${simulation.leastFrequent[0]} (appeared ${simulation.leastFrequent[1]} times)`
+        },
+        analysis: `Monte Carlo simulation with ${simulation.iterations.toLocaleString()} iterations completed in ${simulation.simulationTime}s. Mathematical probability: ${probData.probability}%`,
+        hotNumbers: simulation.hotNumbers,
+        coldNumbers: simulation.coldNumbers,
       };
       
       setPrediction(mockPrediction);
@@ -138,9 +217,21 @@ export default function TexasLotteryPage() {
                   ))}
                 </div>
                 <div className="text-center">
-                  <p className="text-blue-200">Confidence: <span className="text-green-400 font-bold">{(prediction.confidence * 100).toFixed(0)}%</span></p>
-                  <p className="text-blue-200 mt-2">{prediction.analysis}</p>
+                <div className="bg-white/5 p-6 rounded-lg border border-white/10 mb-4">
+                  <p className="text-blue-200">💡 <span className="font-bold">Mathematical Probability:</span> <span className="text-yellow-400 font-bold">{prediction.confidence}%</span></p>
+                  <p className="text-blue-200">🎯 <span className="font-bold">Odds:</span> <span className="text-orange-400">{prediction.odds}</span></p>
+                  <p className="text-blue-200">🔢 <span className="font-bold">Total Combinations:</span> {prediction.totalCombinations.toLocaleString()}</p>
                 </div>
+                
+                <div className="bg-purple-500/10 p-6 rounded-lg border border-purple-500/30 mb-4">
+                  <h3 className="text-xl font-bold text-purple-300 mb-3">🔬 Monte Carlo Simulation Results</h3>
+                  <p className="text-blue-200">✅ <span className="font-bold">Iterations:</span> {prediction.simulation.iterations}</p>
+                  <p className="text-blue-200">⏱️ <span className="font-bold">Processing Time:</span> {prediction.simulation.timeSeconds} seconds</p>
+                  <p className="text-blue-200">🔥 <span className="font-bold">Most Frequent:</span> {prediction.simulation.mostFrequent}</p>
+                  <p className="text-blue-200">❄️ <span className="font-bold">Least Frequent:</span> {prediction.simulation.leastFrequent}</p>
+                </div>
+                
+                <p className="text-gray-300 italic text-sm">{prediction.analysis}</p>                </div>
               </div>
 
               {/* Hot & Cold Numbers */}
