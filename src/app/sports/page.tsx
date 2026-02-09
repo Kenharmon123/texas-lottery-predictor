@@ -271,7 +271,7 @@ export default function SportsPage() {
                 <p className="text-blue-200">No picks available for the selected sport.</p>
               ) : (
                 <div className="space-y-4">
-                    {todaysPicks.filter(pick) => selectedType === 'all' || pick.type === selectedType).map((pick, index) => (    <div className="flex items-start justify-between">
+                    {todaysPicks.filter((pick) => selectedType === 'all' || pick.type === selectedType).map((pick, index) => (    <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <span className="text-2xl font-bold text-blue-400">#{index + 1}</span>
